@@ -5,45 +5,72 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
-  Image
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Image,
 } from "react-native";
+import React, { useState } from "react";
 
 import background from "../assets/images/background.jpg";
-import  rmvIcn from "../assets/images/remove.png";
+import rmvIcn from "../assets/images/remove.png";
 
 export const LoginScreen = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  submitLogin = () => {
+      console.log({
+        email: email,
+        password: password,
+      }
+      );
+  }
+
   return (
+    
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View accessibilityIgnoresInvertColors={true} style={styles.container}>
       <ImageBackground
         source={background}
         resizeMode="cover"
         style={styles.background}
       >
-        <View style={styles.form}>                  
-
+        <View style={styles.form}>
           <Text style={styles.caption}>Увійти</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={"Адреса електронної пошти"}
-            placeholderTextColor={"#BDBDBD"}
-            // onChangeText={onChangeText}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder={"Пароль"}
-            placeholderTextColor={"#BDBDBD"}
-            // onChangeText={onChangeText}
-          />
+          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              value={email}
+              style={styles.input}
+              placeholder={"Адреса електронної пошти"}
+              placeholderTextColor={"#BDBDBD"}
+              onChangeText={setEmail}
+            />
+          </KeyboardAvoidingView>
+          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              value={password}
+              style={styles.input}
+              placeholder={"Пароль"}
+              placeholderTextColor={"#BDBDBD"}
+              onChangeText={setPassword}
+            />
+          </KeyboardAvoidingView>
           <Text style={styles.showText}>Показати</Text>
-          <Pressable style={styles.registerButton}>
-            <Text style={styles.RegisterButtonCaption}>Зареєстуватися</Text>
+          <Pressable style={styles.registerButton} onPress={submitLogin}>
+            <Text style={styles.RegisterButtonCaption}>Увійти</Text>
           </Pressable>
           <Pressable style={styles.logInButton}>
-            <Text style={styles.LoginButtonCaption}>Вже є акаунт? Увійти</Text>
+            <Text style={styles.LoginButtonCaption}>Немає акаунту? Зареєструватися</Text>
           </Pressable>
         </View>
       </ImageBackground>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -82,7 +109,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     gap: 10,
   },
-  photoFrame: {    
+  photoFrame: {
     position: "absolute",
     top: -60,
     alignSelf: "center",
@@ -142,7 +169,7 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     fontSize: 16,
     position: "absolute",
-    top: 250.5,
+    top: 190,
     right: "8.14%",
   },
 });

@@ -6,53 +6,91 @@ import {
   TextInput,
   Pressable,
   Image,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
+import React, { useState } from "react";
 
 import background from "../assets/images/background.jpg";
 import addIcn from "../assets/images/add.png";
-import ava from '../assets/images/Ava.jpg';
+import ava from "../assets/images/Ava.jpg";
 
 export const RegistrationScreen = () => {
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  submitRegister = () => {
+    console.log({ 
+      login: login, 
+      email: email, 
+      password: password });
+  };
+
   return (
-    <View accessibilityIgnoresInvertColors={true} style={styles.container}>
-      <ImageBackground
-        source={background}
-        resizeMode="cover"
-        style={styles.background}
-      >
-        <View style={styles.form}>
-          <ImageBackground style={styles.photoFrame} soure={ava} resizeMode="cover">
-            <Image style={styles.addIcn} source={addIcn} />
-          </ImageBackground>
-          <Text style={styles.caption}>Реєстрація</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={"Логін"}
-            placeholderTextColor={"#BDBDBD"}
-            // onChangeText={onChangeText}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder={"Адреса електронної пошти"}
-            placeholderTextColor={"#BDBDBD"}
-            // onChangeText={onChangeText}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder={"Пароль"}
-            placeholderTextColor={"#BDBDBD"}
-            // onChangeText={onChangeText}
-          />
-          <Text style={styles.showText}>Показати</Text>
-          <Pressable style={styles.registerButton}>
-            <Text style={styles.RegisterButtonCaption}>Зареєстуватися</Text>
-          </Pressable>
-          <Pressable style={styles.logInButton}>
-            <Text style={styles.LoginButtonCaption}>Вже є акаунт? Увійти</Text>
-          </Pressable>
-        </View>
-      </ImageBackground>
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View accessibilityIgnoresInvertColors={true} style={styles.container}>
+        <ImageBackground
+          source={background}
+          resizeMode="cover"
+          style={styles.background}
+        >
+          <View style={styles.form}>
+            <ImageBackground
+              style={styles.photoFrame}
+              soure={ava}
+              resizeMode="cover"
+            >
+              <Image style={styles.addIcn} source={addIcn} />
+            </ImageBackground>
+            <Text style={styles.caption}>Реєстрація</Text>
+            <KeyboardAvoidingView 
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+            >
+              <TextInput
+                value={login}
+                style={styles.input}
+                placeholder={"Логін"}
+                placeholderTextColor={"#BDBDBD"}
+                onChangeText={setLogin}
+              />
+            </KeyboardAvoidingView>
+            <KeyboardAvoidingView 
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+            >
+              <TextInput
+                value={email}
+                style={styles.input}
+                placeholder={"Адреса електронної пошти"}
+                placeholderTextColor={"#BDBDBD"}
+                onChangeText={setEmail}
+              />
+            </KeyboardAvoidingView>
+            <KeyboardAvoidingView 
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+            >
+              <TextInput
+                value={password}
+                style={styles.input}
+                placeholder={"Пароль"}
+                placeholderTextColor={"#BDBDBD"}
+                onChangeText={setPassword}
+              />
+            </KeyboardAvoidingView>
+            <Text style={styles.showText}>Показати</Text>
+            <Pressable style={styles.registerButton} onPress={submitRegister}>
+              <Text style={styles.RegisterButtonCaption}>Зареєстуватися</Text>
+            </Pressable>
+            <Pressable style={styles.logInButton}>
+              <Text style={styles.LoginButtonCaption}>
+                Вже є акаунт? Увійти
+              </Text>
+            </Pressable>
+          </View>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
